@@ -1,4 +1,14 @@
 def find_pairs(numbers: list[int], target_sum: int) -> list[tuple[int, int]]:
+    """Finds out pairs that
+
+    Args:
+        numbers (list[int]): A 1D list of integers - has to have unique elements
+        target_sum (int): The target sum to which pairs should add up
+
+    Returns:
+        list[tuple[int, int]]: A list containing tuples which represent
+        pairs of numbers that sum up to `target_sum`
+    """
     # Initialize a set to hold integers that were seen in `numbers` already
     seen: set[int] = set()
     # Initialize blank list to hold tuples with valid integer pairs
@@ -6,14 +16,14 @@ def find_pairs(numbers: list[int], target_sum: int) -> list[tuple[int, int]]:
 
     # Iterate through the list of numbers (`numbers`)
     for num in numbers:
-        # Skip iteration if `num` was already seen once
+        # Raise error if `num` was already seen once
         #
         # Although we were told to assume that
         # there are no duplicates in the list,
         # never trust the user - end-users are stupid
         if num in seen:
-            continue
-        
+            raise ValueError("Duplicate values detected in list")
+
         # Calculate difference between `target_sum` and `num`
         diff = target_sum - num
 
@@ -32,8 +42,9 @@ def find_pairs(numbers: list[int], target_sum: int) -> list[tuple[int, int]]:
     # Output the list of pairs we have
     return pairs
 
+
 # Example usage:
-numbers: list[int] = [2, 7, 4, 0, 9, 5, 1, 3]
+numbers: list[int] = [2, 7, 4, 0, 0, 9, 5, 1, 3]
 target_sum: int = 8
 result: list[tuple[int, int]] = find_pairs(numbers, target_sum)
 print(result)  # Output: [(2, 5), (7, 0), (4, 3)]
