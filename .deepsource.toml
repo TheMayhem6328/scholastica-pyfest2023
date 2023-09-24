@@ -1,0 +1,15 @@
+version = 1
+
+exclude_patterns = [
+  "__pycache__",
+  "venv",
+  "*.pyc",
+  "tempCodeRunnerFile.py",
+  ".mypy_cache"
+]
+
+[[analyzers]]
+name = "python"
+
+  [analyzers.meta]
+  runtime_version = "3.x.x"
