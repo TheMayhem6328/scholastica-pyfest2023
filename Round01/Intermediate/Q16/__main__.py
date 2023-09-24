@@ -12,7 +12,7 @@ def find_pairs(numbers: list[int], target_sum: int) -> list[tuple[int, int]]:
     # Initialize a set to hold integers that were seen in `numbers` already
     seen: set[int] = set()
     # Initialize blank list to hold tuples with valid integer pairs
-    pairs: list[tuple[int, int]] = list()
+    pairs: list[tuple[int, int]] = []
 
     # Iterate through the list of numbers (`numbers`)
     for num in numbers:
@@ -50,7 +50,7 @@ def find_pairs(numbers: list[int], target_sum: int) -> list[tuple[int, int]]:
 
 
 # Example usage:
-numbers: list[int] = [2, 7, 4, 0, 9, 5, 1, 3]
-target_sum: int = 7
-result: list[tuple[int, int]] = find_pairs(numbers, target_sum)
+my_numbers: list[int] = [2, 7, 4, 0, 9, 5, 1, 3]
+my_target_sum: int = 7
+result: list[tuple[int, int]] = find_pairs(my_numbers, my_target_sum)
 print(result)
