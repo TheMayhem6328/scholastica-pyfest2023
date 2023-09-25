@@ -6,7 +6,7 @@ class Vignere:
     @staticmethod
     def __shift_calc(text: str) -> list[int]:
         # Convert to uppercase, to have them all in the same case
-        temp_text = text.upper()
+        temp_text: str = text.upper()
 
         # Get a map object with result of ASCII codes of characters in `secret`
         # This basically runs the function `ord()` on every single character
@@ -16,7 +16,7 @@ class Vignere:
         # Why not use a `for` loop? Because this is more efficient, since
         # internally, it does the loop using `C` code, which is more efficient
         # than Python's looping mechanisms
-        shift = map(ord, temp_text)
+        shift: map[int] | list[int] = map(ord, temp_text)
 
         # Serialize it to a list
         shift = list(shift)
@@ -51,7 +51,7 @@ class Vignere:
             # Calculate position of currently iterated character
             # as difference between its ASCII value and the
             # ASCII value of 'A'
-            char_position: int = ord(char) - ord("A")
+            char_position = ord(char) - ord("A")
 
             # Retrieve shift value for this iteration
             #
@@ -68,7 +68,7 @@ class Vignere:
             # because we don't want the characted to overflow
             # to non-alphabet regions of ASCII, so that we
             # gracefully cycle through alphabets only
-            char_position: int = (char_position + shift_current) % 26
+            char_position = (char_position + shift_current) % 26
 
             # Convert it to a proper character
             #
@@ -79,13 +79,13 @@ class Vignere:
 
             # Add this character to ciphertext
             # (as character and not ASCII code)
-            cipher: str = cipher + char_cipher
+            cipher = cipher + char_cipher
             
             # Increment `shift_position` for next iteration
-            shift_position: int = char_position + 1
+            shift_position = shift_position + 1
 
         # After we've built ciphertext, return it
         return cipher
 
 
-print(Vignere("SECRET", "KEY").encrypt())
+print(Vignere("ENCRYPTED", "SECURITYISKEY").encrypt())
