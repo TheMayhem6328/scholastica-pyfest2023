@@ -32,6 +32,10 @@ class Vignere:
         return shift
 
     def encrypt(self) -> str:
+        # Raise error if key is blank
+        if len(self.key) == 0:
+            raise ValueError("Key is empty - cannot encrypt")
+        
         # Retrieve shift values
         shift_list: list[int] = self.__shift_calc(self.key)
 
@@ -61,7 +65,6 @@ class Vignere:
             # does not overflow
             shift_current: int = shift_list[shift_position % len(self.key)]
 
-
             # Calculate ASCII value of shifted character
             #
             # We are then modulo-ing the summation with 26
@@ -86,6 +89,65 @@ class Vignere:
 
         # After we've built ciphertext, return it
         return cipher
+    
+    def decrypt(self) -> str:
+        # Raise error if key is blank
+        if len(self.key) == 0:
+            raise ValueError("Key is empty - cannot encrypt")
+        
+        # Retrieve shift values
+        shift_list: list[int] = self.__shift_calc(self.key)
 
+        # Initialize variable to store current position in shift_list
+        shift_position: int = 0
 
-print(Vignere("ENCRYPTED", "SECURITYISKEY").encrypt())
+        # Initialize variable to store encrypted list
+        cipher: str = ""
+
+        # Initialize variable to store alphabet position
+        # of character we'll be iterating through
+        char_position: int = 0
+
+        # Iterate through every character of message
+
+        for char in self.message:
+            # Calculate position of currently iterated character
+            # as difference between its ASCII value and the
+            # ASCII value of 'A'
+            char_position = ord(char) - ord("A")
+
+            # Retrieve shift value for this iteration
+            #
+            # We want it to go theough `shift_list` in a cyclic manner,
+            # hence we modulo our current `shift_position` with
+            # the length of given key so that it the index value
+            # does not overflow
+            shift_current: int = shift_list[shift_position % len(self.key)]
+
+            # Calculate ASCII value of shifted character
+            #
+            # We are then modulo-ing the summation with 26
+            # because we don't want the characted to overflow
+            # to non-alphabet regions of ASCII, so that we
+            # gracefully cycle through alphabets only
+            char_position = (char_position - shift_current) % 26
+
+            # Convert it to a proper character
+            #
+            # We add the ASCII value of 'A' to it because of how
+            # we originally subtracted it from `char_position`, for
+            # mathematical simplicity - to balance that off, we do this
+            char_cipher: str = chr(char_position + ord("A"))
+
+            # Add this character to ciphertext
+            # (as character and not ASCII code)
+            cipher = cipher + char_cipher
+            
+            # Increment `shift_position` for next iteration
+            shift_position = shift_position + 1
+
+        # After we've built ciphertext, return it
+        return cipher
+        
+
+print(Vignere("RDB", "SECURITYISKEY").decrypt())
