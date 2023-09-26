@@ -1,5 +1,24 @@
 class Vignere:
-    """Class containing data structures and methods related to Vignere cipher"""
+    """Class containing data structures and methods related to Vignere cipher
+
+    We decided to make it a class rather than definining it as functions in the
+    global namespace because we wanted this to have a cleanly stored
+    data structure and methods
+
+    While yes, it is more hassle to type `Vignere(message="ENCRYPTED", key="SECURITYISKEY").encrypt()`
+    rather than just `vignere_encrypt(message="ENCRYPTED", key="SECURITYISKEY")`,
+    this allows us store not just the result of the encrypted text, but also
+    allows us to retrieve given parameters on demand much later into execution
+
+    This could be useful when let's say we want to first to run
+    the method `self.guess_key_length()` to approximate the length
+    of the key, then accordingly try bruteforcing the key without
+    typing in the original message more than once
+
+    What if the message was an user input? Do we prompt the user
+    to give us the same input value again, word-by-word? Or if
+    we're let's say retrieving something from an API - we can
+    minimize calls to the API by implementing this data structure"""
 
     def __init__(self, message: str, key: str = "") -> None:
         """Initialize data structure for manipulating `message`
@@ -11,7 +30,15 @@ class Vignere:
             `key` (`str`, optional):
                 The key you want to use for provided cipher methods. Defaults to `""`,
                 but must be populated if you want to run `self.encode()` or `self.decode()`
+
+        ### Raises:
+            `ValueError`:
+                Exception raised when message is empty
         """
+        # Raise error if key is blank
+        if len(self.key) == 0:
+            raise ValueError("Message cannot be empty")
+
         # Initialize necessary class attributes
         self.message = message
         self.key = key
@@ -55,19 +82,60 @@ class Vignere:
         # Return shift values
         return shift
 
+    @staticmethod
+    def __index_of_coincidence(text: str) -> float:
+        """A helper method to return the probability of any
+        two randomly selected characters from given string
+        being the same. To be used only by methods inside
+        this class
+
+        ### Args:
+            `text` (`str`):
+                Text to find IC of
+
+        ### Returns:
+            `float`:
+                The IC value of the string, within range 0 to 1
+        """
+        # Initialize a dictionary to store the frequency of each letter
+        freq: dict[str, int] = {}
+
+        # Iterate through each letter in the text
+        #
+        # Here, we essentially count the frequency
+        # of each letter in the text
+        for letter in text:
+            # Increment frequency count
+            # of current letter
+            freq[letter] = freq.get(letter, 0) + 1
+
+        # Initialize a variable to store the sum of
+        # the products of `freq` and (`freq`-1)
+        product_sum: int = 0
+        # Iterate through each letter in the frequency dictionary
+        for letter in freq:
+            # Add product of `freq` and (`freq`-1)
+            # to sum, `freq` being the frequency
+            # of the current alphabet being iterated
+            product_sum += freq[letter] * (freq[letter] - 1)
+
+        # Calculate and return the IC as the sum divided by
+        # the product of `text length` and (`text length`-1)
+        return product_sum / ((len(text) * (len(text) - 1)) / 1)
+
     def __crypt_base(self, encrypt: bool) -> str:
         """A helper method meant to unify code for encryption and decryption
         methods. To be used only by methods in this class
 
-        Args:
-            `encrypt` (`bool`, optional):
+        ### Args:
+            `encrypt` (`bool`):
                 Indicates whether to encrypt message or not
 
-        Raises:
+        ### Raises:
             `ValueError`:
                 Exception raised when key is empty
 
-        Returns:
+        ### Returns:
             `str`:
                 Contains encrypted/decrypted message, depending on
                 the value of paramerer `encrypt`
@@ -139,6 +207,45 @@ class Vignere:
         # After we've built ciphertext, return it
         return cipher
 
+    def guess_key_length(self) -> int:
+        """Retrieves the best guess of what the length of the key may be
+
+        NOTE: This is just a pretty close approximation - output
+        may be wrong, so please be aware of that. The longer
+        the ciphertext is, the more accurate the results get
+
+        Returns:
+            int:
+                The best-guess length of the key
+        """
+        # Initialize variable to store maximum IC
+        max_ic: float = 0
+
+        # Initialize variable to store best keyword length
+        best_length: int = 0
+
+        # Loop through possible keyword lengths from 1 to half of message length
+        for length in range(1, len(self.message) // 2 + 1):
+            # Initialize a variable to store the ICs sum of all segments
+            total_ic: float = 0
+
+            # Loop through each segment with step `length`
+            for i in range(length):
+                segment = self.message[i::length]
+                total_ic += self.__index_of_coincidence(segment)
+
+            # Calculate the average IC of all segments
+            avg_ic = total_ic / length
+
+            # If the average IC is greater than the maximum IC,
+            # update the maximum IC and best keyword length
+            if avg_ic > max_ic:
+                max_ic = avg_ic
+                best_length = length
+
+        # Return the best keyword length
+        return best_length
+
     def encrypt(self) -> str:
         """Encrypts provided message.
         Key has to be provided for this to work
@@ -159,14 +266,18 @@ class Vignere:
         """
         return self.__crypt_base(encrypt=False)
 
+
 # Task 01
-print(Vignere("THISISATESTHAHAHEHEHUHUWAWA", "SECURITYISKEY").encrypt())
+print(Vignere(message="ENCRYPTED", key="SECURITYISKEY").encrypt())
 
 # Task 02
-print(Vignere("WEXAHAKMNP", "CHALLENGEACCEPTED").decrypt())
+print(Vignere(message="WEXAHAKMNP", key="CHALLENGEACCEPTED").decrypt())
 
 # Task 03
-print(Vignere("EXTRACTION", "COMPLEXITY").encrypt())
+print(Vignere(message="EXTRACTION", key="COMPLEXITY").encrypt())
 
 # Task 04
-print(Vignere("VWHUJARZTM", "ENCRYPTIONISFUN").decrypt())
+print(Vignere(message="VWHUJARZTM", key="ENCRYPTIONISFUN").decrypt())
+
+# Task 05
+print(Vignere(message="COUUPVCIUTHREUUTFRNUFTRROU").guess_key_length())

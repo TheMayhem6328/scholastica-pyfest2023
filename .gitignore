@@ -2,5 +2,7 @@
 __pycache__
 venv
 *.pyc
-tempCodeRunnerFile.py
 .mypy_cache
+
+# VSCode extension - "Code runner"
+tempCodeRunnerFile*
