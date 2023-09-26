@@ -35,9 +35,40 @@ class Vignere:
             `ValueError`:
                 Exception raised when message is empty
         """
-        # Raise error if key is blank
-        if len(self.key) == 0:
-            raise ValueError("Message cannot be empty")
+        # Initialize variable to hold error description
+        error_text: str = ""
+
+        # Implement a function to check for errors
+        # common to both message and key
+        #
+        # TODO: Turn these limitations into supported functionality
+        def common_errors(param_name: str, param_value: str) -> str:
+            # Run through a chain of if statements
+            # to sniff out errors within `param`
+            if not param_value.isalpha():
+                return f"{param_name} cannot have non-alphabetical characters"
+            if not param_value.isupper():
+                return f"{param_name} cannot have lowercase letters"
+            return ""
+
+        # Check error cases for `message`
+        if len(message) == 0:
+            error_text = "Message cannot be empty"
+        else:
+            error_text = common_errors(message, "Message")
+
+        # Check error cases for `key`
+        # but only if a value is given
+        #
+        # Non-empty strings have a `True` value
+        # Blanks ones are implicitly `False`
+        if key:
+            error_text = common_errors(key, "Key")
+
+        # Raise `ValueError` with appropriate description
+        # if the description is not empty
+        if not error_text:
+            raise ValueError(error_text)
 
         # Initialize necessary class attributes
         self.message = message
@@ -158,7 +189,6 @@ class Vignere:
         char_position: int = 0
 
         # Iterate through every character of message
-
         for char in self.message:
             # Calculate position of currently iterated character
             # as difference between its ASCII value and the
