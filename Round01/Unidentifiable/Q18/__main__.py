@@ -310,4 +310,4 @@ print(Vignere(message="EXTRACTION", key="COMPLEXITY").encrypt())
 print(Vignere(message="VWHUJARZTM", key="ENCRYPTIONISFUN").decrypt())
 
 # Task 05
-print(Vignere(message="COUUPVCIUTHREUUTFRNUFTRROU").guess_key_length())
+print(Vignere(message="JTOHYZSFOCQXQY").guess_key_length())
