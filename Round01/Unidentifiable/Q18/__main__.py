@@ -296,18 +296,24 @@ class Vignere:
         """
         return self.__crypt_base(encrypt=False)
 
+if __name__ == "__main__":
+    # Task 01
+    print("The result of encrypting 'ENCRYPTED' with key 'SECURITYISKEY' is:", end=" ")
+    print(Vignere(message="ENCRYPTED", key="SECURITYISKEY").encrypt(), end="\n\n")
 
-# Task 01
-print(Vignere(message="ENCRYPTED", key="SECURITYISKEY").encrypt())
+    # Task 02
+    print("The result of decrypting 'WEXAHAKMNP' with key 'CHALLENGEACCEPTED' is:", end=" ")
+    print(Vignere(message="WEXAHAKMNP", key="CHALLENGEACCEPTED").decrypt(), end="\n\n")
 
-# Task 02
-print(Vignere(message="WEXAHAKMNP", key="CHALLENGEACCEPTED").decrypt())
+    # Task 03
+    print("The result of encrypting 'EXTRACTION' with key 'COMPLEXITY' is:", end=" ")
+    print(Vignere(message="EXTRACTION", key="COMPLEXITY").encrypt(), end="\n\n")
 
-# Task 03
-print(Vignere(message="EXTRACTION", key="COMPLEXITY").encrypt())
+    # Task 04
+    print("The result of decrypting 'VWHUJARZTM' with key 'ENCRYPTIONISFUN' is:", end=" ")
+    print(Vignere(message="VWHUJARZTM", key="ENCRYPTIONISFUN").decrypt(), end="\n\n")
 
-# Task 04
-print(Vignere(message="VWHUJARZTM", key="ENCRYPTIONISFUN").decrypt())
-
-# Task 05
-print(Vignere(message="JTOHYZSFOCQXQY").guess_key_length())
+    # Task 05
+    print("The best-guess approximation for the length of key, which can be used ")
+    print("to decode ciphertext 'JTOHYZSFOCQXQY', is:", end=" ")
+    print(Vignere(message="JTOHYZSFOCQXQY").guess_key_length(), "characters long")

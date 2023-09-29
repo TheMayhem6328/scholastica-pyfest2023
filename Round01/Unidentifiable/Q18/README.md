@@ -38,7 +38,7 @@ So, the encrypted message is `"CIABIR"`.
 1. Encrypt the message `"ENCRYPTED"` using the keyword `"SECURITYISKEY"`.
 2. Decrypt the message `"WEXAHAKMNP"` using the keyword `"CHALLENGEACCEPTED"`.
 3. Encrypt the message `"EXTRACTION"` using the keyword `"COMPLEXITY"`.
-4. Decrypt the message `"VWHUJARZTM"` using the keyword "ENCRYPTIONISFUN".
+4. Decrypt the message `"VWHUJARZTM"` using the keyword `"ENCRYPTIONISFUN"`.
 5. Implement a function that can automatically find the length of the keyword used to encrypt a Vigenère ciphered message. Use this function to find the keyword length of the message `"JTOHYZSFOCQXQY"` and provide the length.
 
 ## Note

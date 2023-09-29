@@ -50,7 +50,12 @@ def find_pairs(numbers: list[int], target_sum: int) -> list[tuple[int, int]]:
 
 
 # Example usage:
-my_numbers: list[int] = [2, 7, 4, 0, 9, 5, 1, 3]
-my_target_sum: int = 7
-result: list[tuple[int, int]] = find_pairs(my_numbers, my_target_sum)
-print(result)
+if __name__ == "__main__":
+    amount = int(input("Enter number of values to take: "))
+    my_numbers: list[int] = []
+    for i in range(amount):
+        my_numbers.append(int(input(f"Enter value {str(i+1).zfill(2)}: ")))
+    my_target_sum: int = int(input("Enter target sum: "))
+    result: list[tuple[int, int]] = find_pairs(my_numbers, my_target_sum)
+    print("\nThe result is as follows: ")
+    print(result)

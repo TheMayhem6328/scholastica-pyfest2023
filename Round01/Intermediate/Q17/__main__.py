@@ -34,19 +34,20 @@ def count_ways_to_divide_word() -> int:
     # We subtract total by number of invalid cases
 
     # Calculate number of ways where
-    # pattern is `CC* O** O**`
+    # pattern is `CC* | O** | O**`
     wrong_ways += comb(5, 1) * comb(4, 2)
 
     # Calculate number of ways where
-    # pattern is `CCO O** ***`
+    # pattern is `CCO | O** | ***`
     wrong_ways += comb(5, 2)
 
     # Calculate number of ways where
-    # pattern is `CC* OO* ***`
+    # pattern is `CC* | OO* | ***`
     wrong_ways += comb(5, 1) * comb(4, 1)
 
     # Return the right amount of ways
     return int(total_ways) - wrong_ways
 
 # Output result
-print(count_ways_to_divide_word())
+if __name__ == "__main__":
+    print("With the given conditions, the word can be combined in", count_ways_to_divide_word(), "ways")
