@@ -13,13 +13,10 @@ team = ["Zahiruzzaman Chowdhury", "Fatema Jahan Akhter"]
 # Root
 char_input = 0
 while True:
+    # Draw UI
     draw.add_border(pad_y, pad_x)
-    draw.add_header(
-        pad_y, pad_x, "What do you want to open?"
-    )
-    draw.add_footer(
-        pad_y, pad_x, "Press ESC to exit"
-    )
+    draw.add_header(pad_y, pad_x, "What do you want to open?")
+    draw.add_footer(pad_y, pad_x, "Press ESC to exit")
     curses.mvaddstr(pad_y + 4, pad_x + 2, "Enter a number to continue:")
     curses.mvaddstr(
         pad_y + 6,
@@ -37,21 +34,25 @@ while True:
         "[3] ( Unidentifiable || Question 18 ) Vignere Cipher",
     )
     curses.refresh()
+
     char_input = curses.getch()
-    if char_input == 27:  # If ESC
+
+    ## Conditions for exiting loop
+
+    # If input is ESC
+    if char_input == 27:
         curses.clear()
-        draw.add_footer(
-            pad_y, pad_x, f"Collaborative work of {team[0]} and {team[1]}"
-        )
+        draw.add_footer(pad_y, pad_x, f"Collaborative work of {team[0]} and {team[1]}")
         draw.pause()
         break
-    elif char_input == 49:  # If 1
+
+    # If input is 1
+    elif char_input == 49:
         char_input_depth_01 = 0
         while True:
+            # Draw UI
             curses.clear()
-            draw.add_border(
-                pad_y, pad_x
-            )
+            draw.add_border(pad_y, pad_x)
             draw.add_header(
                 pad_y,
                 pad_x,
@@ -65,11 +66,20 @@ while True:
             )
             curses.mvaddstr(pad_y + 6, pad_x + 2, "Answer: ")
             curses.refresh()
+
+            # Take continuous input - like a text box
+            #
+            # This block is for a list
+            
+            # ==================== START input_stream_list() ====================
+            
             num_list = []
             num = ""
             char_input_depth_02 = 0
             while True:
                 char_input_depth_02 = curses.getch()
+
+                # If input is Enter
                 if char_input_depth_02 in [10, 12]:
                     if num == "":
                         curses.refresh()
@@ -82,6 +92,8 @@ while True:
                         curses.mvaddstr(pad_y + 6, pad_x + 2, "Answer: ")
                         num = ""
                         curses.refresh()
+
+                # If input is backspace
                 elif char_input_depth_02 == 8:
                     curses.mvaddstr(
                         pad_y + 6, pad_x + 2, "Answer:                        "
@@ -89,16 +101,28 @@ while True:
                     curses.mvaddstr(pad_y + 6, pad_x + 2, "Answer: ")
                     num = ""
                     curses.refresh()
+
+                # If input is a number
                 elif char_input_depth_02 in range(48, 58):
                     num += chr(char_input_depth_02)
                     curses.addch(chr(char_input_depth_02))
                     curses.refresh()
+
+            # Overwrite older parts of UI with `blank`,
+            # effecively erasing that part
             curses.mvaddstr(
                 pad_y + 4, pad_x + 2, "                                    "
             )
             curses.mvaddstr(
                 pad_y + 6, pad_x + 2, "                                    "
             )
+            
+            # ==================== END input_stream_list() ====================
+
+
+            # ==================== START input_stream_single() ====================
+
+            # Take input for target sum
             curses.mvaddstr(pad_y + 4, pad_x + 2, "Enter targer sum: ")
             curses.refresh()
             target = 0
@@ -106,6 +130,8 @@ while True:
             char_input_depth_02 = 0
             while True:
                 char_input_depth_02 = curses.getch()
+
+                # If input is Enter
                 if char_input_depth_02 in [10, 12]:
                     target = int(num)
                     curses.mvaddstr(
@@ -113,61 +139,59 @@ while True:
                     )
                     curses.refresh()
                     break
+
+                # If input is a number
                 elif char_input_depth_02 in range(48, 58):
                     num += chr(char_input_depth_02)
                     curses.addch(chr(char_input_depth_02))
                     curses.refresh()
+
+                # If input is backspace
                 elif char_input_depth_02 == 8:
                     curses.mvaddstr(
                         pad_y + 4, pad_x + 2, "Answer:                        "
                     )
                     curses.mvaddstr(pad_y + 4, pad_x + 2, "Enter targer sum: ")
                     num = ""
+                    
+            # ==================== END input_stream_single() ====================
+
+            # Erase older parts
             curses.mvaddstr(
                 pad_y + 6, pad_x + 2, "                                       "
             )
             curses.refresh()
 
-            # After ans:
-            my_list = Q16.find_pairs(
-                num_list, target
-            )
+            # Process inputs and return output
+            my_list = Q16.find_pairs(num_list, target)
             curses.clear()
-            draw.add_border(
-                pad_y, pad_x
-            )
+            draw.add_border(pad_y, pad_x)
             draw.add_header(
                 pad_y,
                 pad_x,
                 "Find pairs of numbers from list that add up a target number",
             )
-            draw.add_footer(
-                pad_y, pad_x, "Press ESC to go back"
-            )
+            draw.add_footer(pad_y, pad_x, "Press ESC to go back")
             curses.mvaddstr(pad_y + 4, pad_x + 2, "Your result is as follows:")
             curses.mvaddstr(pad_y + 6, pad_x + 2, str(my_list))
             curses.refresh()
 
+            # If ESC is pressed, get out of this loop
             char_input_depth_01 = curses.getch()
             if char_input_depth_01 == 27:  # If ESC
                 curses.clear()
                 break
-    elif char_input == 50:  # If 2
+
+    # If input is 2
+    elif char_input == 50:
+        # This one is static, so getting over it by just drawing UI
         char_input_depth_01 = 0
         while True:
-            my_ans = (
-                Q17.count_ways_to_divide_word()
-            )
+            my_ans = Q17.count_ways_to_divide_word()
             curses.clear()
-            draw.add_border(
-                pad_y, pad_x
-            )
-            draw.add_header(
-                pad_y, pad_x, "CROCODILE Division"
-            )
-            draw.add_footer(
-                pad_y, pad_x, "Press ESC to go back"
-            )
+            draw.add_border(pad_y, pad_x)
+            draw.add_header(pad_y, pad_x, "CROCODILE Division")
+            draw.add_footer(pad_y, pad_x, "Press ESC to go back")
             curses.mvaddstr(
                 pad_y + 4, pad_x + 2, "Given the condition, the result is as follows:"
             )
@@ -177,22 +201,16 @@ while True:
             if char_input_depth_01 == 27:  # If ESC
                 curses.clear()
                 break
+
+    # If input is 3
     elif char_input == 51:  # If 3
         char_input_depth_01 = 0
         while True:
-            my_ans = (
-                Q17.count_ways_to_divide_word()
-            )
+            my_ans = Q17.count_ways_to_divide_word()
             curses.clear()
-            draw.add_border(
-                pad_y, pad_x
-            )
-            draw.add_header(
-                pad_y, pad_x, "Vignere Cipher"
-            )
-            draw.add_footer(
-                pad_y, pad_x, "Press ESC to go back"
-            )
+            draw.add_border(pad_y, pad_x)
+            draw.add_header(pad_y, pad_x, "Vignere Cipher")
+            draw.add_footer(pad_y, pad_x, "Press ESC to go back")
             curses.mvaddstr(pad_y + 4, pad_x + 2, "Choose an option:")
             curses.refresh()
             curses.mvaddstr(
@@ -222,19 +240,13 @@ while True:
             elif char_input_depth_01 == 49:  # If 1
                 char_input_depth_01 = 0
                 while True:
-                    my_ans = (
-                        Q17.count_ways_to_divide_word()
-                    )
+                    my_ans = Q17.count_ways_to_divide_word()
                     curses.clear()
-                    draw.add_border(
-                        pad_y, pad_x
-                    )
+                    draw.add_border(pad_y, pad_x)
                     draw.add_header(
                         pad_y, pad_x, "Vignere Cipher -> Execute preset task"
                     )
-                    draw.add_footer(
-                        pad_y, pad_x, "Press ESC to go back"
-                    )
+                    draw.add_footer(pad_y, pad_x, "Press ESC to go back")
                     curses.mvaddstr(
                         pad_y + 4,
                         pad_x + 2,
@@ -297,12 +309,8 @@ while True:
                         break
             elif char_input_depth_01 == 50:  # If 2
                 curses.clear()
-                draw.add_border(
-                    pad_y, pad_x
-                )
-                draw.add_header(
-                    pad_y, pad_x, "Vignere Cipher -> Encrypt"
-                )
+                draw.add_border(pad_y, pad_x)
+                draw.add_header(pad_y, pad_x, "Vignere Cipher -> Encrypt")
                 draw.add_footer(
                     pad_y,
                     pad_x,
@@ -383,19 +391,11 @@ while True:
 
                 # After ans:
                 while True:
-                    cipher = Q18.Vignere(
-                        plain, keytext
-                    ).encrypt()
+                    cipher = Q18.Vignere(plain, keytext).encrypt()
                     curses.clear()
-                    draw.add_border(
-                        pad_y, pad_x
-                    )
-                    draw.add_header(
-                        pad_y, pad_x, "Vignere Cipher -> Encrypt"
-                    )
-                    draw.add_footer(
-                        pad_y, pad_x, "Press ESC to go back"
-                    )
+                    draw.add_border(pad_y, pad_x)
+                    draw.add_header(pad_y, pad_x, "Vignere Cipher -> Encrypt")
+                    draw.add_footer(pad_y, pad_x, "Press ESC to go back")
                     curses.mvaddstr(pad_y + 4, pad_x + 2, "Your result is as follows:")
                     curses.mvaddstr(pad_y + 6, pad_x + 2, str(cipher))
                     curses.refresh()
@@ -406,12 +406,8 @@ while True:
                         break
             elif char_input_depth_01 == 51:  # If 3
                 curses.clear()
-                draw.add_border(
-                    pad_y, pad_x
-                )
-                draw.add_header(
-                    pad_y, pad_x, "Vignere Cipher -> Decrypt"
-                )
+                draw.add_border(pad_y, pad_x)
+                draw.add_header(pad_y, pad_x, "Vignere Cipher -> Decrypt")
                 draw.add_footer(
                     pad_y,
                     pad_x,
@@ -492,19 +488,11 @@ while True:
 
                 # After ans:
                 while True:
-                    cipher = Q18.Vignere(
-                        plain, keytext
-                    ).decrypt()
+                    cipher = Q18.Vignere(plain, keytext).decrypt()
                     curses.clear()
-                    draw.add_border(
-                        pad_y, pad_x
-                    )
-                    draw.add_header(
-                        pad_y, pad_x, "Vignere Cipher -> Decrypt"
-                    )
-                    draw.add_footer(
-                        pad_y, pad_x, "Press ESC to go back"
-                    )
+                    draw.add_border(pad_y, pad_x)
+                    draw.add_header(pad_y, pad_x, "Vignere Cipher -> Decrypt")
+                    draw.add_footer(pad_y, pad_x, "Press ESC to go back")
                     curses.mvaddstr(pad_y + 4, pad_x + 2, "Your result is as follows:")
                     curses.mvaddstr(pad_y + 6, pad_x + 2, str(cipher))
                     curses.refresh()
@@ -515,12 +503,8 @@ while True:
                         break
             elif char_input_depth_01 == 52:  # If 4
                 curses.clear()
-                draw.add_border(
-                    pad_y, pad_x
-                )
-                draw.add_header(
-                    pad_y, pad_x, "Vignere Cipher -> Guess key length"
-                )
+                draw.add_border(pad_y, pad_x)
+                draw.add_header(pad_y, pad_x, "Vignere Cipher -> Guess key length")
                 draw.add_footer(
                     pad_y,
                     pad_x,
@@ -564,19 +548,11 @@ while True:
 
                 # After ans:
                 while True:
-                    cipher = Q18.Vignere(
-                        plain
-                    ).guess_key_length()
+                    cipher = Q18.Vignere(plain).guess_key_length()
                     curses.clear()
-                    draw.add_border(
-                        pad_y, pad_x
-                    )
-                    draw.add_header(
-                        pad_y, pad_x, "Vignere Cipher -> Guess key length"
-                    )
-                    draw.add_footer(
-                        pad_y, pad_x, "Press ESC to go back"
-                    )
+                    draw.add_border(pad_y, pad_x)
+                    draw.add_header(pad_y, pad_x, "Vignere Cipher -> Guess key length")
+                    draw.add_footer(pad_y, pad_x, "Press ESC to go back")
                     curses.mvaddstr(pad_y + 4, pad_x + 2, "Your result is as follows:")
                     curses.mvaddstr(pad_y + 6, pad_x + 2, str(cipher))
                     curses.refresh()
