@@ -6,3 +6,6 @@ venv
 
 # VSCode extension - "Code runner"
 tempCodeRunnerFile*
+
+# Myself
+temp.py

@@ -1,3 +1,11 @@
 {
-    "python.analysis.typeCheckingMode": "off"
+    "python.analysis.typeCheckingMode": "strict",
+    "cSpell.enableFiletypes": [
+        "cython",
+        "pseudocode"
+    ],
+    "cSpell.words": [
+        "QWERTYUIOPASDFGHJKLZXCVBNM",
+        "stdscr"
+    ]
 }
