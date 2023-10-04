@@ -1,13 +1,25 @@
 {
-    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.typeCheckingMode": "off",
     "cSpell.enableFiletypes": [
         "cython",
         "pseudocode"
     ],
     "cSpell.words": [
+        "addch",
+        "addstr",
+        "bkgd",
+        "bkgdset",
+        "endwin",
+        "getch",
+        "getmaxyx",
+        "mvaddch",
+        "mvaddstr",
+        "napms",
+        "noecho",
         "QWERTYUIOPASDFGHJKLZXCVBNM",
         "SECURITYISKEY",
         "stdscr",
-        "Vignere"
+        "Vignere",
+        "xcrypt"
     ]
 }
